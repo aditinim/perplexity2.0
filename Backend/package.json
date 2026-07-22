@@ -13,15 +13,23 @@
   "type": "module",
   "dependencies": {
     "@langchain/google-genai": "^2.2.0",
+    "@langchain/mistralai": "^1.2.0",
+    "@tavily/core": "^0.7.6",
     "bcryptjs": "^3.0.3",
     "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "express-validator": "^7.3.2",
+    "imagekit": "^6.0.0",
     "jsonwebtoken": "^9.0.3",
     "langchain": "^1.5.2",
-    "mongoose": "^9.7.3",
-    "nodemailer": "^9.0.1",
-    "validator": "^13.15.35"
+    "mongoose": "^9.7.4",
+    "morgan": "^1.11.0",
+    "multer": "^2.2.0",
+    "nodemailer": "^9.0.3",
+    "socket.io": "^4.8.3",
+    "validator": "^13.15.35",
+    "zod": "^4.4.3"
   }
 }
