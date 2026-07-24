@@ -32,19 +32,21 @@ const Dashboard = () => {
     chat.handleOpenChat(chatId,chats)
   }
 
+  // text-[rgb(56,165,195)]
+
   return (
     <main className='min-h-screen w-full bg-[#07090f] p-3 text-white md:p-5'>
       <section className='mx-auto flex h-[calc(100vh-1.5rem)] w-full gap-4 rounded-3xl border   p-1 md:h-[calc(100vh-2.5rem)] md:gap-6 md:p-1 border-none'>
-        <aside className='hidden h-full w-72 shrink-0 rounded-3xl border  bg-[#080b12] p-4 md:flex md:flex-col'>
-          <h1 className='mb-5 text-3xl font-semibold tracking-tight'>Perplexity</h1>
+        <aside className='hidden h-full w-72 shrink-0 rounded-3xl border border-[#191919]  bg-[#080b12] p-4 md:flex md:flex-col'>
+          <h1 className='mb-5 text-3xl text-[rgb(151,219,242)]  font-semibold tracking-tight'>Perplexity</h1>
 
-          <div className='space-y-2'>
+          <div className='space-y-2 '>
             {Object.values(chats).map((chat,index) => (
               <button
                 onClick={()=>{openChat(chat.id)}}
                 key={index}
                 type='button'
-                className='w-full cursor-pointer rounded-xl border border-white/60 bg-transparent px-3 py-2 text-left text-base font-medium text-white/90 transition hover:border-white hover:text-white'
+                className='w-full cursor-pointer rounded-xl border border-[#191919] bg-transparent px-3 py-2 text-left text-base font-medium text-white/90 transition hover:border-white hover:text-white'
               >
                 {chat.title}
               </button>
@@ -54,12 +56,12 @@ const Dashboard = () => {
 
         <section className='relative max-w-3/5 mx-auto flex h-full min-w-0 flex-1 flex-col gap-4'>
 
-          <div className='messages flex-1 space-y-3 overflow-y-auto pr-1 pb-30'>
+          <div className='messages text-amber-100 flex-1 space-y-3 overflow-y-auto pr-1 pb-30'>
             {chats[ currentChatId ]?.messages.map((message) => (
               <div
                 key={message.id}
                 className={`max-w-[82%] w-fit rounded-2xl px-4 py-3 text-sm md:text-base ${message.role === 'user'
-                    ? 'ml-auto rounded-br-none bg-white/12 text-white'
+                    ? 'ml-auto rounded-br-none bg-white/12 text-[#fafae8]'
                     : 'mr-auto border-none text-white/90'
                   }`}
               >
@@ -83,14 +85,14 @@ const Dashboard = () => {
             ))}
           </div>
 
-          <footer className='rounded-3xl w-full absolute bottom-2 border border-white/60 bg-[#080b12] p-4 md:p-5'>
+          <footer className='rounded-3xl w-full absolute bottom-2 bg-[#080b12] p-4 md:p-5'>
             <form onSubmit={handleSubmitMessage} className='flex flex-col gap-3 md:flex-row'>
               <input
                 type='text'
                 value={chatInput}
                 onChange={(event) => setChatInput(event.target.value)}
-                placeholder='Type your message...'
-                className='w-full rounded-2xl border border-white/50 bg-transparent px-4 py-3 text-lg text-white outline-none transition placeholder:text-white/45 focus:border-white/90'
+                placeholder='Ask anything...'
+                className='w-full rounded-2xl border border-white/50 bg-transparent px-4 py-3 text-sm text-white outline-none transition placeholder:text-white/45 focus:border-white/90'
               />
               <button
                 type='submit'
