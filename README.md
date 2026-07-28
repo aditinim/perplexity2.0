@@ -4,6 +4,8 @@ Phoenix is an AI-powered research assistant inspired by modern AI search engines
 
 The application allows users to interact with AI, retrieve real-time information from the internet, upload PDF documents, and ask questions based on their uploaded content.
 
+pdf: https://drive.google.com/file/d/1gtzuLFy0cvqcOAMX72fcmBS_YIpxzQkS/view?usp=sharing
+
 ---
 
 ## Overview
