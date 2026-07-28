@@ -6,11 +6,11 @@ export async function register(req, res) {
     const { username, email, password } = req.body;
 
 
-    const isUserAlreadyExixts = await userModel.findOne({
+    const isUserAlreadyExists = await userModel.findOne({
         $or: [{ email }, { username }]
     })
 
-    if (isUserAlreadyExixts) {
+    if (isUserAlreadyExists) {
         return res.status(400).json({
             message: "User with this email or username already exists",
             success: false,
@@ -21,7 +21,6 @@ export async function register(req, res) {
 
     const user = await userModel.create({ username, email, password });
 
-    console.log("JWT_SECRET =", process.env.JWT_SECRET);
     const emailVerificationToken = jwt.sign({
         email: user.email,
 
@@ -29,22 +28,22 @@ export async function register(req, res) {
 
     await sendEmail({
         to: email,
-        subject: "Welcome to Perplexity2.0",
+        subject: "Welcome to Phoenix",
         html: `
                 <div style="max-width:600px;margin:0 auto;padding:40px;background:#ffffff;border:1px solid #e5e7eb;border-radius:10px;font-family:Arial,Helvetica,sans-serif;color:#374151;line-height:1.7;">
 
                 <h1 style="margin-top:0;color:#111827;">
-                    Welcome to Perplexity2.0
+                    Welcome to Phoenix
                 </h1>
 
                 <p>Hi <strong>${username || "there"}</strong>,</p>
 
                 <p>
-                    Thank you for signing up for <strong>Perplexity2.0</strong>.
+                    Thank you for signing up for <strong>Phoenix</strong>.
                     Your account has been created successfully, and you're ready to get started.
                 </p>
 
-                <p>With Perplexity2.0, you can:</p>
+                <p>With Phoenix, you can:</p>
 
                 <ul>
                     <li>Ask AI-powered questions.</li>
@@ -55,7 +54,7 @@ export async function register(req, res) {
 
                 <div style="text-align:center;margin:35px 0;">
                     <a
-                    href="http://localhost:3000/api/auth/verify-email?token=${emailVerificationToken}"
+                    href="${process.env.BACKEND_URL}/api/auth/verify-email?token=${emailVerificationToken}"
                     style="background:#111827;color:#ffffff;text-decoration:none;padding:12px 24px;border-radius:6px;display:inline-block;font-weight:600;"
                     >
                     Get Started
@@ -67,12 +66,12 @@ export async function register(req, res) {
                 </p>
 
                 <p>
-                    Thank you for choosing Perplexity2.0.
+                    Thank you for choosing Phoenix.
                 </p>
 
                 <p style="margin-top:30px;">
                     Regards,<br>
-                    <strong>Team Perplexity2.0</strong>
+                    <strong>Team Phoenix</strong>
                 </p>
 
                 </div>
@@ -138,13 +137,13 @@ export async function verifyEmail(req, res) {
 }
 
 
-export async function login(req, res){
-    const {email, password} = req.body;
+export async function login(req, res) {
+    const { email, password } = req.body;
 
-    const user= await userModel.findOne({email});
+    const user = await userModel.findOne({ email });
 
 
-    if(!user){
+    if (!user) {
         return res.status(400).json({
             message: "Invalid email or password",
             success: false,
@@ -152,7 +151,7 @@ export async function login(req, res){
         })
     }
 
-    if(!user.verified){
+    if (!user.verified) {
         return res.status(400).json({
             message: "Please verify you email before loggin in",
             success: false,
@@ -160,13 +159,18 @@ export async function login(req, res){
         })
     }
 
-    const token= jwt.sign({
+    const token = jwt.sign({
         id: user._id,
         username: user.username,
 
-    }, process.env.JWT_SECRET, {expiresIn: "7d"});
+    }, process.env.JWT_SECRET, { expiresIn: "7d" });
 
-    res.cookie("token", token);
+    res.cookie("token", token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none",
+        maxAge: 7 * 24 * 60 * 60 * 1000
+    });
 
     res.status(200).json({
         message: "Login successful",
@@ -180,13 +184,13 @@ export async function login(req, res){
 }
 
 
-export async function getMe(req, res){
-    const userId= req.user.id;
+export async function getMe(req, res) {
+    const userId = req.user.id;
 
-    const user= await userModel.findById(userId).select("-password");
+    const user = await userModel.findById(userId).select("-password");
 
 
-    if(!user){
+    if (!user) {
         return res.status(404).json({
             message: "User not found",
             success: false,

@@ -1,24 +1,38 @@
 {
-  "name": "perplexity2.0",
+  "name": "phoenix",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "npx nodemon server.js"
+    "dev": "npx nodemon server.js",
+    "start": "node server.js"
   },
-  "keywords": [],
+  "keywords": [
+    "AI",
+    "RAG",
+    "LangChain",
+    "Pinecone",
+    "Tavily",
+    "LLM",
+    "chatbot"
+  ],
   "author": "",
   "license": "ISC",
   "type": "module",
   "dependencies": {
+    "@langchain/community": "^1.1.29",
+    "@langchain/core": "^1.2.3",
     "@langchain/google-genai": "^2.2.0",
     "@langchain/mistralai": "^1.2.0",
+    "@langchain/pinecone": "^1.0.3",
+    "@langchain/textsplitters": "^1.0.1",
+    "@pinecone-database/pinecone": "^5.0.2",
     "@tavily/core": "^0.7.6",
     "bcryptjs": "^3.0.3",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
-    "dotenv": "^17.4.2",
+    "dotenv": "^16.4.5",
     "express": "^5.2.1",
     "express-validator": "^7.3.2",
     "imagekit": "^6.0.0",
@@ -28,8 +42,9 @@
     "morgan": "^1.11.0",
     "multer": "^2.2.0",
     "nodemailer": "^9.0.3",
+    "pdf-parse": "^2.4.5",
     "socket.io": "^4.8.3",
     "validator": "^13.15.35",
-    "zod": "^4.4.3"
+    "zod": "^3.25.76"
   }
 }

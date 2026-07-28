@@ -12,7 +12,7 @@ const chatSlice = createSlice({
     reducers: {
         createNewChat: (state, action) => {
             const { chatId, title } = action.payload
-            state.chats[ chatId ] = {
+            state.chats[chatId] = {
                 id: chatId,
                 title,
                 messages: [],
@@ -21,11 +21,39 @@ const chatSlice = createSlice({
         },
         addNewMessage: (state, action) => {
             const { chatId, content, role } = action.payload
-            state.chats[ chatId ].messages.push({ content, role })
+            state.chats[chatId].messages.push({ content, role })
+        },
+        removeChat: (state, action) => {
+            const chatId = action.payload;
+
+            delete state.chats[chatId];
+
+            if (state.currentChatId === chatId) {
+                state.currentChatId = null;
+            }
+        },
+        startAiMessage: (state, action) => {
+            const { chatId } = action.payload;
+
+            state.chats[chatId].messages.push({
+                role: "ai",
+                content: "",
+            });
+        },
+
+        appendAiMessage: (state, action) => {
+            const { chatId, chunk } = action.payload;
+
+            const messages = state.chats[chatId].messages;
+            const lastMessage = messages[messages.length - 1];
+
+            if (lastMessage && lastMessage.role === "ai") {
+                lastMessage.content += chunk;
+            }
         },
         addMessages: (state, action) => {
             const { chatId, messages } = action.payload
-            state.chats[ chatId ].messages.push(...messages)
+            state.chats[chatId].messages.push(...messages)
         },
         setChats: (state, action) => {
             state.chats = action.payload
@@ -39,10 +67,29 @@ const chatSlice = createSlice({
         setError: (state, action) => {
             state.error = action.payload
         },
+        updateChatDocument: (state, action) => {
+            const { chatId, document } = action.payload;
+
+            if (state.chats[chatId]) {
+                state.chats[chatId].document = document;
+            }
+        },
     }
 })
 
-export const { setChats, setCurrentChatId, setLoading, setError, createNewChat, addNewMessage, addMessages } = chatSlice.actions
+export const {
+    setChats,
+    setCurrentChatId,
+    setLoading,
+    setError,
+    createNewChat,
+    addNewMessage,
+    addMessages,
+    removeChat,
+    startAiMessage,
+    appendAiMessage,
+    updateChatDocument,
+} = chatSlice.actions;
 export default chatSlice.reducer
 
 

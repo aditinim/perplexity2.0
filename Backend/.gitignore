@@ -33,3 +33,6 @@ coverage/
 
 # Optional
 *.pid
+
+# Uploaded files
+uploads/
